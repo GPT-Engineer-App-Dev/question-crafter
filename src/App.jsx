@@ -7,6 +7,7 @@ import Layout from "./layouts/sidebar";
 import Index from "./pages/Index";
 import CreateSurvey from "./pages/CreateSurvey";
 import MySurveys from "./pages/MySurveys";
+import AnswerSurvey from "./pages/AnswerSurvey";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => {
               <Route index element={<Index />} />
               <Route path="create" element={<CreateSurvey />} />
               <Route path="my-surveys" element={<MySurveys />} />
+              <Route path="answer-survey/:id" element={<AnswerSurvey />} />
             </Route>
           </Routes>
         </Router>

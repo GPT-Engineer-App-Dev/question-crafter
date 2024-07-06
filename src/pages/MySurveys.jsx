@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, Edit, Trash2 } from 'lucide-react';
@@ -6,6 +7,7 @@ import { toast } from "sonner";
 
 const MySurveys = () => {
   const [surveys, setSurveys] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedSurveys = JSON.parse(localStorage.getItem('surveys') || '[]');
@@ -17,6 +19,10 @@ const MySurveys = () => {
     setSurveys(updatedSurveys);
     localStorage.setItem('surveys', JSON.stringify(updatedSurveys));
     toast.success("Survey deleted successfully!");
+  };
+
+  const handleAnswer = (id) => {
+    navigate(`/answer-survey/${id}`);
   };
 
   return (
@@ -38,7 +44,7 @@ const MySurveys = () => {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={() => handleAnswer(survey.id)}>
                   <Eye className="h-4 w-4" />
                 </Button>
                 <Button variant="outline" size="icon">
