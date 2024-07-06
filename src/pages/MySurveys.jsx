@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, Edit, Trash2 } from 'lucide-react';
+import { toast } from "sonner";
 
 const MySurveys = () => {
   const [surveys, setSurveys] = useState([]);
 
   useEffect(() => {
-    // In a real app, you would fetch surveys from an API or database
-    // For now, we'll use mock data stored in localStorage
     const storedSurveys = JSON.parse(localStorage.getItem('surveys') || '[]');
     setSurveys(storedSurveys);
   }, []);
@@ -17,6 +16,7 @@ const MySurveys = () => {
     const updatedSurveys = surveys.filter(survey => survey.id !== id);
     setSurveys(updatedSurveys);
     localStorage.setItem('surveys', JSON.stringify(updatedSurveys));
+    toast.success("Survey deleted successfully!");
   };
 
   return (

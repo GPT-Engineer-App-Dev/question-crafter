@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2 } from 'lucide-react';
+import { toast } from "sonner";
 
 const CreateSurvey = () => {
   const [surveyTitle, setSurveyTitle] = useState('');
   const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate();
 
   const addQuestion = () => {
     setQuestions([...questions, { text: '', type: 'text' }]);
@@ -27,9 +30,27 @@ const CreateSurvey = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically save the survey data
-    console.log({ title: surveyTitle, questions });
-    // For now, we'll just log it to the console
+    const newSurvey = {
+      id: Date.now().toString(),
+      title: surveyTitle,
+      questions: questions,
+      createdAt: new Date().toISOString()
+    };
+
+    // Get existing surveys from localStorage
+    const existingSurveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+    
+    // Add new survey to the array
+    const updatedSurveys = [...existingSurveys, newSurvey];
+    
+    // Save updated surveys array back to localStorage
+    localStorage.setItem('surveys', JSON.stringify(updatedSurveys));
+
+    // Show success notification
+    toast.success("Survey saved successfully!");
+
+    // Navigate to My Surveys page
+    navigate('/my-surveys');
   };
 
   return (
